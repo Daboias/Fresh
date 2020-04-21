@@ -1,6 +1,7 @@
 <?php
 include 'common.php';
 include 'menu.php';
+include 'header.php';
 include 'FreshUi.php';
 ?>
 
