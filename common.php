@@ -5,24 +5,10 @@ if (!defined('__DIR__')) {
 
 define('__TYPECHO_ADMIN__', true);
 
-// 只需改动 $admin_path 的 /krait/nabo/admin/为你的后台路径，即可，其他的不要改动。
-//$admin_path_before 为config.inc.php中的路径，一般是默认。
-$admin_path = "/Fresh/";
-$admin_path_before = "/admin/";
-
-//路径实现来源 https://krait.cn/major/2021.html
-$config_path = 'config.inc.php';
-$array_path = array_filter(explode("/", $admin_path));
-foreach ($array_path as $value) {
-    $config_path = str_replace("config", "../config", $config_path);
-}
-if (file_exists($config_path)) {
-    $str = file_get_contents($config_path);
-    $str = str_replace($admin_path_before, $admin_path, $str);
-    foreach ($array_path as $value) {
-        $str = str_replace("__FILE__", "dirname(__FILE__)", $str);
-    }
-    eval("?>" . $str);
+/** 载入配置文件 */
+if (!defined('__TYPECHO_ROOT_DIR__') && !@include_once __DIR__ . '/../config.inc.php') {
+    file_exists(__DIR__ . '/../install.php') ? header('Location: ../install.php') : print('Missing Config File');
+    exit;
 }
 
 /** 初始化组件 */
